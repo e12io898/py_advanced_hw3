@@ -45,8 +45,7 @@ if __name__ == '__main__':
                 parameter = 'vacancy-serp-item-company'
                 company_div = values.find('div', class_=parameter)
                 company_tag = company_div.find('a')
-                company = company_tag.text.encode('utf-8')
-                company = company.decode('utf-8')
+                company = company_tag.text
 
                 # Город:
                 parameter = 'vacancy-serp__vacancy-address'
