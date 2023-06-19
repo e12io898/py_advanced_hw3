@@ -4,10 +4,9 @@ import json
 import requests
 from fake_headers import Headers
 
-
 if __name__ == '__main__':
 
-    headers = Headers(browser='firefox', os='win')
+    headers = Headers(browser='chrome', os='win')
     headers_data = headers.generate()
     url = 'https://spb.hh.ru/search/vacancy?text=python&area=1&area=2'
 
@@ -46,7 +45,8 @@ if __name__ == '__main__':
                 parameter = 'vacancy-serp-item-company'
                 company_div = values.find('div', class_=parameter)
                 company_tag = company_div.find('a')
-                company = company_tag.text
+                company = company_tag.text.encode('utf-8')
+                company = company.decode('utf-8')
 
                 # Город:
                 parameter = 'vacancy-serp__vacancy-address'
@@ -63,5 +63,5 @@ if __name__ == '__main__':
                     'city': city
                 }
 
-    with open('vacancy.json', 'w', encoding='utf-8') as f:
+    with open('vacancy.json', 'w') as f:
         json.dump(vacancy_list, f)
