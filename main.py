@@ -12,7 +12,7 @@ if __name__ == '__main__':
 
     vacancy_list = {}
 
-    for i in range(10):
+    for i in range(30):
         url = url + f'&page={i}'
         html = requests.get(url, headers=headers_data).text
         soup = bs4.BeautifulSoup(html, 'lxml')
@@ -39,13 +39,13 @@ if __name__ == '__main__':
                 if salary_tag is None:
                     salary = 'Не указана.'
                 else:
-                    salary = salary_tag.text
+                    salary = salary_tag.text.replace('\u202f', ' ')
 
                 # Название компании:
                 parameter = 'vacancy-serp-item-company'
                 company_div = values.find('div', class_=parameter)
                 company_tag = company_div.find('a')
-                company = company_tag.text
+                company = company_tag.text.replace('\u202f', ' ')
 
                 # Город:
                 parameter = 'vacancy-serp__vacancy-address'
@@ -62,5 +62,5 @@ if __name__ == '__main__':
                     'city': city
                 }
 
-    with open('vacancy.json', 'w') as f:
-        json.dump(vacancy_list, f)
+    with open('vacancy.json', 'w', encoding='utf-8') as f:
+        json.dump(vacancy_list, f, ensure_ascii=False)
